@@ -1,0 +1,66 @@
+
+import java.util.*;
+
+class Priority {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of processes: ");
+        int n = sc.nextInt();
+
+        int[] bt = new int[n];
+        int[] pr = new int[n];
+        int[] p = new int[n];
+        int[] wt = new int[n];
+        int[] tat = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            p[i] = i + 1;
+
+            System.out.print("Enter burst time for P" + (i + 1) + ": ");
+            bt[i] = sc.nextInt();
+
+            System.out.print("Enter priority for P" + (i + 1) + ": ");
+            pr[i] = sc.nextInt();
+        }
+
+        // Sort according to priority
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (pr[i] > pr[j]) {
+
+                    int temp = pr[i];
+                    pr[i] = pr[j];
+                    pr[j] = temp;
+
+                    temp = bt[i];
+                    bt[i] = bt[j];
+                    bt[j] = temp;
+
+                    temp = p[i];
+                    p[i] = p[j];
+                    p[j] = temp;
+                }
+            }
+        }
+
+        wt[0] = 0;
+
+        for (int i = 1; i < n; i++) {
+            wt[i] = wt[i - 1] + bt[i - 1];
+        }
+
+        for (int i = 0; i < n; i++) {
+            tat[i] = wt[i] + bt[i];
+        }
+
+        System.out.println("\nProcess\tBT\tPriority\tWT\tTAT");
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("P" + p[i] + "\t" + bt[i]
+                    + "\t" + pr[i] + "\t\t"
+                    + wt[i] + "\t" + tat[i]);
+        }
+    }
+}
